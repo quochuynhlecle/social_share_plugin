@@ -7,7 +7,8 @@ typedef Future<dynamic> OnErrorHandler(String error);
 typedef Future<dynamic> OnSuccessHandler(String postId);
 
 class SocialSharePlugin {
-  static const MethodChannel _channel = const MethodChannel('social_share_plugin');
+  static const MethodChannel _channel =
+      const MethodChannel('social_share_plugin');
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
@@ -16,16 +17,16 @@ class SocialSharePlugin {
 
   static Future<void> shareToFeedInstagram({
     String type = 'image/*',
-    @required String path,
-    OnSuccessHandler onSuccess,
-    OnCancelHandler onCancel,
+    required String path,
+    required OnSuccessHandler onSuccess,
+    required OnCancelHandler onCancel,
   }) async {
     _channel.setMethodCallHandler((call) {
       switch (call.method) {
         case "onSuccess":
-          return onSuccess(call.arguments);
+          return onSuccess.call(call.arguments);
         case "onCancel":
-          return onCancel();
+          return onCancel.call();
         default:
           throw UnsupportedError("Unknown method called");
       }
@@ -37,20 +38,20 @@ class SocialSharePlugin {
   }
 
   static Future<void> shareToFeedFacebook({
-    String caption,
-    @required String path,
-    OnSuccessHandler onSuccess,
-    OnCancelHandler onCancel,
-    OnErrorHandler onError,
+    String? caption,
+    required String path,
+    required OnSuccessHandler onSuccess,
+    required OnCancelHandler onCancel,
+    required OnErrorHandler onError,
   }) async {
     _channel.setMethodCallHandler((call) {
       switch (call.method) {
         case "onSuccess":
-          return onSuccess(call.arguments);
+          return onSuccess.call(call.arguments);
         case "onCancel":
-          return onCancel();
+          return onCancel.call();
         case "onError":
-          return onError(call.arguments);
+          return onError.call(call.arguments);
         default:
           throw UnsupportedError("Unknown method called");
       }
@@ -62,20 +63,20 @@ class SocialSharePlugin {
   }
 
   static Future<dynamic> shareToFeedFacebookLink({
-    String quote,
-    @required String url,
-    OnSuccessHandler onSuccess,
-    OnCancelHandler onCancel,
-    OnErrorHandler onError,
+    String? quote,
+    required String url,
+    required OnSuccessHandler onSuccess,
+    required OnCancelHandler onCancel,
+    required OnErrorHandler onError,
   }) async {
     _channel.setMethodCallHandler((call) {
       switch (call.method) {
         case "onSuccess":
-          return onSuccess(call.arguments);
+          return onSuccess.call(call.arguments);
         case "onCancel":
-          return onCancel();
+          return onCancel.call();
         case "onError":
-          return onError(call.arguments);
+          return onError.call(call.arguments);
         default:
           throw UnsupportedError("Unknown method called");
       }
@@ -86,20 +87,18 @@ class SocialSharePlugin {
     });
   }
 
-  static Future<bool> shareToTwitterLink({
-    String text,
-    @required String url,
-    OnSuccessHandler onSuccess,
-    OnCancelHandler onCancel,
+  static Future shareToTwitterLink({
+    String? text,
+    required String url,
+    required OnSuccessHandler onSuccess,
+    required OnCancelHandler onCancel,
   }) async {
     _channel.setMethodCallHandler((call) {
       switch (call.method) {
         case "onSuccess":
-          return onSuccess(call.arguments);
+          return onSuccess.call(call.arguments);
         case "onCancel":
-          return onCancel();
-        //  case "onError":
-        //    return onError(call.arguments);
+          return onCancel.call();
         default:
           throw UnsupportedError("Unknown method called");
       }
